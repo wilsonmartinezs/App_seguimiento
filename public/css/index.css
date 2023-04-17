@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    transition: 1s all;
+    font-family: 'Poppins';
+}
+
+nav {
+    width: 100%;
+    height: 80px;
+    box-shadow: 4px 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.hero {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    padding: 30px;
+    box-shadow: 0.5em 0.75em 0.75em 0.5em rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+
+.card > h2 {
+    color: #027f02;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 10px;
+}
+
+form > label {
+    font-size: 14px;
+}
+
+.user-login > i {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #027f02;
+    color: white;
+}
+
+.user-login {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+
+#login, #password {
+    width: 100%;
+    padding: 10px 15px;
+    border-style: none;
+    border-radius: 5px;
+    background-color: #e0e0e0;
+}
+
+::placeholder {
+    color: gray
+}
+
+input:focus {
+    color: gray;
+    border: 1px solid gray;
+}
+
+.null-pass {
+    text-align: right;
+}
+
+.null-pass > a {
+    font-size: 12px;
+}
+
+form > a {
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #027f02;
+    color: white;
+    border: none;
+    margin: 0 auto;
+    text-decoration: none;
+}
+
+@media (max-width: 400px) {
+    .card {
+        padding: 25px;
+    }
+
+    .user-login > i {
+        display: none;
+    }
+
+    form {
+        width: 250px;
+    }
+}

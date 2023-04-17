@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/icons/fontawesome/css/all.min.css">
+    <title>Horarios SENA | Iniciar sesión</title>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <img src="/img/logo.png" alt="Logo SENA" width="56" height="59">
+        </nav>
+        <div class="hero">
+            <div class="card">
+                <h2>Inciar Sesión</h2>
+                <form action="">
+                    <label for="usuario">Usuario o número de documento</label>
+                    <div class="user-login">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" name="usuario" id="login" placeholder="Usuario">
+                    </div>
+                    <br>
+                    <label for="password">Contraseña</label>
+                    <div class="user-login">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" name="password" id="password" placeholder="Contraseña">
+                    </div>
+                    <div class="user-login">
+                        <input type="checkbox" name="" id="" onclick="viewPassword()">
+                        <label for="">Mirar contraseña</label>
+                    </div>
+                    <div class="null-pass">
+                        <a href="#">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <a href="javascript:ValidarUsuario()">Iniciar sesión</a>
+               </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function viewPassword() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password"
+            }
+        }
+        
+    </script>
+</body>
+
+<script src="js/index.js"></script>
+</html>

@@ -1,0 +1,36 @@
+/* Google Fonts Import Link */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.content {
+    width: 100%;
+    height: 90%;
+    padding: 50px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-container {
+    width: max-content;
+    margin: 2% 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-new > #new-horario, 
+.btn-new > #edit-horario {
+    padding: 10px;
+    background-color: #027d02;
+    color: white;
+    border-style: none;
+    border-radius: 10px;
+    font-size: 1em;
+}

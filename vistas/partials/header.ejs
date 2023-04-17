@@ -1,0 +1,25 @@
+
+
+
+<nav class="home-content">
+   <h3>Seguimiento Etapa Practica</h3> 
+    <i class='bx bx-menu'></i>
+    <ul>
+        <li><i class="fa-solid fa-bell"></i></li>
+        <li class="profile">
+            <i class="fa-solid fa-user"></i>
+            <p>
+                <% if(user){%>
+                    <%=user.nombre%> 
+                <%}%> 
+            </p>
+           
+            
+            <i class="fa-solid fa-chevron-up"></i>
+            <ul class="submenu">
+                <li><a href="./profile.html">Perfil</a></li>
+                <li><a href="">Cerrar sesion</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>

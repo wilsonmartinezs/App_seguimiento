@@ -1,0 +1,89 @@
+.home-content {
+    justify-content: end;
+    box-shadow: 1em 1em 1em 1em rgba(0, 0, 0, 0.1);
+}
+
+nav > ul, .profile {
+    width: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 0 20px 0 0;
+    list-style: none;
+}
+
+.profile {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    padding: 0 10px;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    transition: .5s all;
+}
+
+.submenu > li > a {
+    text-decoration: none;
+    color: black;
+}
+
+.profile:hover {
+    cursor: pointer;
+    background-color: rgba(2, 125, 2, 0.4);
+    color: white;
+    transition: .5s all;
+}
+
+.profile:hover .fa-chevron-up {
+    transform: rotate(180deg);
+    transition: .5s all;
+}
+
+.profile:hover .submenu {
+    display: block;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 1em 1em rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: .5s all;
+}
+
+.profile:hover .submenu li {
+    padding: 10px 0;
+    transition: .5s all;
+}
+
+.profile:hover .submenu li:hover {
+    background-color: rgba(2, 125, 2, 0.4);
+    color: white;
+    transition: .5s all;
+}
+
+.profile:hover .submenu li:hover a {
+    color: white;
+    transition: .5s all;
+    width: 100%;
+    text-decoration: none;
+}
+
+.submenu:hover {
+    background-color: rgba(2, 125, 2, 0.4);
+    color: white;
+    transition: .5s all;
+}
+
+@media (max-width: 426px) {
+    .home-content {
+        justify-content: space-between;
+    }
+}

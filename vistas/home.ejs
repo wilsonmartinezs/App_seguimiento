@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/start_page.css">
+    <link rel="stylesheet" href="/css/components/drop_menu.css">
+    <link rel="stylesheet" href="/css/components/navbar.css">
+    <link rel="stylesheet" href="/icons/boxicons/css/boxicons.min.css">
+    <link rel="stylesheet" href="/icons/fontawesome/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | Administrador</title>
+   </head>
+<body>
+    <div class="sidebar close">
+        <div class="logo-details">
+            <img src="/img/logo_white.png" alt="" width="60" height="60">
+        </div>
+        <%- include ('partials/menu.ejs')%>
+    </div>
+    <section class="home-section">
+
+      
+        <%- include ('partials/header.ejs')%>
+
+        <div class="content">
+            <div class="content-container">
+                <div class="card-1 card">
+                    <h2>Instructores de planta</h2>
+                    <h2>11</h2>
+                </div>
+                <div class="card-2 card">
+                    <h2>Instructores  contratistas</h2>
+                    <h2>20</h2>
+                </div>
+                <div class="card-3 card">
+                    <h2>Ambientes sede Yamboró</h2>
+                    <h2>30</h2>
+                </div>
+                <div class="card-4 card">
+                    <h2>Ambientes disponibles</h2>
+                    <h2>5</h2>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+    <script src="./js/index.js"></script>
+</body>
+</html>

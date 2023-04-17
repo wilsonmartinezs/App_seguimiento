@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="utf8mb4" collation="utf8mb4_general_ci">sena</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="personas" view="colnames">
+<left>544</left>
+<top>279</top>
+<width>143</width>
+<height>214</height>
+<sql_create_table>CREATE TABLE `personas` (
+  `id_persona` int(11) NOT NULL AUTO_INCREMENT,
+  `identificacion` bigint(20) DEFAULT NULL,
+  `nombres` varchar(80) DEFAULT NULL,
+  `correo` varchar(80) DEFAULT NULL,
+  `telefono` varchar(40) DEFAULT NULL,
+  `ficha` int(11) DEFAULT NULL,
+  `password` varchar(25) DEFAULT NULL,
+  `rol` enum('Instructor','Coordinador','Lider','Seguimiento') DEFAULT NULL,
+  `cargo` enum('Instructor','Aprendiz','Coordinador','Administrativo') DEFAULT NULL,
+  PRIMARY KEY (`id_persona`),
+  UNIQUE KEY `identificacion_unique` (`identificacion`),
+  KEY `ficha_persona` (`ficha`),
+  CONSTRAINT `ficha_persona` FOREIGN KEY (`ficha`) REFERENCES `fichas` (`codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="municipios" view="colnames">
+<left>925</left>
+<top>522</top>
+<width>125</width>
+<height>112</height>
+<sql_create_table>CREATE TABLE `municipios` (
+  `id_municipio` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_mpio` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`id_municipio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="ambientes" view="colnames">
+<left>743</left>
+<top>613</top>
+<width>150</width>
+<height>148</height>
+<sql_create_table>CREATE TABLE `ambientes` (
+  `id_ambiente` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_amb` varchar(80) DEFAULT NULL,
+  `municipio` int(11) DEFAULT NULL,
+  `sede` enum('centro','yamboro') DEFAULT NULL,
+  `estado` enum('activo','inactivo') DEFAULT NULL,
+  PRIMARY KEY (`id_ambiente`),
+  KEY `municipio_ambiente` (`municipio`),
+  CONSTRAINT `municipio_ambiente` FOREIGN KEY (`municipio`) REFERENCES `municipios` (`id_municipio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="horarios" view="colnames">
+<left>552</left>
+<top>539</top>
+<width>145</width>
+<height>251</height>
+<sql_create_table>CREATE TABLE `horarios` (
+  `id_horario` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_inicio` date DEFAULT NULL,
+  `hora_inicio` time DEFAULT NULL,
+  `fecha_fin` date DEFAULT NULL,
+  `hora_fin` time DEFAULT NULL,
+  `dia` enum('lunes','martes','miercoles','jueves','viernes','sabados','domingo') DEFAULT NULL,
+  `cantidad_horas` int(11) DEFAULT NULL,
+  `instructor` int(11) DEFAULT NULL,
+  `ficha` int(11) DEFAULT NULL,
+  `ambiente` int(11) DEFAULT NULL,
+  `estado` enum('solicitud','aprobado','no aprobado') DEFAULT NULL,
+  PRIMARY KEY (`id_horario`),
+  KEY `hoario_ambiente` (`ambiente`),
+  KEY `horario_ficha` (`ficha`),
+  KEY `vinculacion_horario` (`instructor`),
+  CONSTRAINT `hoario_ambiente` FOREIGN KEY (`ambiente`) REFERENCES `ambientes` (`id_ambiente`),
+  CONSTRAINT `horario_ficha` FOREIGN KEY (`ficha`) REFERENCES `fichas` (`codigo`),
+  CONSTRAINT `vinculacion_horario` FOREIGN KEY (`instructor`) REFERENCES `vinculcion` (`id_vinculacion`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="programas" view="colnames">
+<left>900</left>
+<top>265</top>
+<width>153</width>
+<height>129</height>
+<sql_create_table>CREATE TABLE `programas` (
+  `id_programa` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_programa` varchar(80) DEFAULT NULL,
+  `sigla` varchar(20) DEFAULT NULL,
+  `estado` enum('activo','inactivo') DEFAULT NULL,
+  PRIMARY KEY (`id_programa`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="fichas" view="colnames">
+<left>725</left>
+<top>263</top>
+<width>135</width>
+<height>208</height>
+<sql_create_table>CREATE TABLE `fichas` (
+  `codigo` int(11) NOT NULL,
+  `fecha_inicio` date DEFAULT NULL,
+  `fecha_lectiva` date DEFAULT NULL,
+  `fecha_fin` datetime DEFAULT NULL,
+  `programa` int(11) DEFAULT NULL,
+  `sede` enum('centro','yamboro') DEFAULT NULL,
+  `estado` enum('activa','inactiva') DEFAULT NULL,
+  PRIMARY KEY (`codigo`),
+  KEY `ficha_programa` (`programa`),
+  CONSTRAINT `ficha_programa` FOREIGN KEY (`programa`) REFERENCES `programas` (`id_programa`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="vinculcion" view="colnames">
+<left>396</left>
+<top>527</top>
+<width>126</width>
+<height>183</height>
+<sql_create_table>CREATE TABLE `vinculcion` (
+  `id_vinculacion` int(11) NOT NULL AUTO_INCREMENT,
+  `instructor` int(11) DEFAULT NULL,
+  `tipo` enum('contratisca','planta') DEFAULT NULL,
+  `sede` enum('centro','yamboro') DEFAULT NULL,
+  `area` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_vinculacion`),
+  KEY `vinculacion_horario` (`instructor`),
+  KEY `vinculacion_area` (`area`),
+  CONSTRAINT `vinculacion_area` FOREIGN KEY (`area`) REFERENCES `areas` (`id_area`),
+  CONSTRAINT `vinculacion_instructor` FOREIGN KEY (`instructor`) REFERENCES `personas` (`id_persona`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="areas" view="colnames">
+<left>97</left>
+<top>572</top>
+<width>123</width>
+<height>112</height>
+<sql_create_table>CREATE TABLE `areas` (
+  `id_area` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_area` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`id_area`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="seguimientos" view="colnames">
+<left>393</left>
+<top>28</top>
+<width>132</width>
+<height>206</height>
+<sql_create_table>CREATE TABLE `seguimientos` (
+  `id_seguimiento` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha` date DEFAULT NULL,
+  `seguimiento` varchar(100) DEFAULT NULL,
+  `aprendiz` int(11) DEFAULT NULL,
+  `estado` enum('solicitud','aprobado','no aprobado') DEFAULT NULL,
+  `instructor` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_seguimiento`),
+  KEY `matricula_aprenidiz` (`aprendiz`),
+  CONSTRAINT `matricula_aprenidiz` FOREIGN KEY (`aprendiz`) REFERENCES `etapa_practica` (`id_practica`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="etapa_practica" view="colnames">
+<left>230</left>
+<top>246</top>
+<width>149</width>
+<height>234</height>
+<sql_create_table>CREATE TABLE `etapa_practica` (
+  `id_practica` int(11) NOT NULL AUTO_INCREMENT,
+  `aprendiz` int(11) DEFAULT NULL,
+  `empesa` int(11) DEFAULT NULL,
+  `fecha_inicio` date DEFAULT NULL,
+  `fecha_fin` date DEFAULT NULL,
+  `alternativa` enum('Contrato de Aprendizaje','Proyecto Productivo','Pasantias','Monitoria') DEFAULT NULL,
+  `estado` enum('Inicio','No ha iniciado','Renuncia','Certificado') DEFAULT NULL,
+  `instructor` int(11) DEFAULT NULL,
+  `acuerdo` varchar(100) DEFAULT NULL,
+  `arl` varchar(100) DEFAULT NULL,
+  `certificacion` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_practica`),
+  KEY `aprendiz_matricula` (`aprendiz`),
+  KEY `empresa_matricula` (`empesa`),
+  KEY `instructor_vinc` (`instructor`),
+  CONSTRAINT `aprendiz_matricula` FOREIGN KEY (`aprendiz`) REFERENCES `personas` (`id_persona`),
+  CONSTRAINT `empresa_matricula` FOREIGN KEY (`empesa`) REFERENCES `empresa` (`id_empresa`),
+  CONSTRAINT `instructor_vinc` FOREIGN KEY (`instructor`) REFERENCES `vinculcion` (`id_vinculacion`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="bitacoras" view="colnames">
+<left>602</left>
+<top>30</top>
+<width>115</width>
+<height>180</height>
+<sql_create_table>CREATE TABLE `bitacoras` (
+  `id_bitacora` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha` date DEFAULT NULL,
+  `bitacora` varchar(100) DEFAULT NULL,
+  `seguimiento` int(11) DEFAULT NULL,
+  `estado` enum('solicitud','aprobado','no aprobado') DEFAULT NULL,
+  `instructor` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_bitacora`),
+  KEY `seguimiento_bitacora` (`seguimiento`),
+  CONSTRAINT `seguimiento_bitacora` FOREIGN KEY (`seguimiento`) REFERENCES `seguimientos` (`id_seguimiento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="actividades" view="colnames">
+<left>169</left>
+<top>8</top>
+<width>115</width>
+<height>200</height>
+<sql_create_table>CREATE TABLE `actividades` (
+  `id_actividad` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(200) DEFAULT NULL,
+  `seguimiento` int(11) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `instructor` varchar(50) DEFAULT NULL,
+  `evidencia` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_actividad`),
+  KEY `actividad_seguimiento` (`seguimiento`),
+  CONSTRAINT `actividad_seguimiento` FOREIGN KEY (`seguimiento`) REFERENCES `seguimientos` (`id_seguimiento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="empresa" view="colnames">
+<left>24</left>
+<top>229</top>
+<width>153</width>
+<height>180</height>
+<sql_create_table>CREATE TABLE `empresa` (
+  `id_empresa` int(11) NOT NULL AUTO_INCREMENT,
+  `razon_social` varchar(80) DEFAULT NULL,
+  `direccion` varchar(80) DEFAULT NULL,
+  `jefe` varchar(50) DEFAULT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `correo` varchar(80) DEFAULT NULL,
+  `ciudad` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_empresa`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
