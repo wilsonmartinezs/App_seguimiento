@@ -31,10 +31,10 @@ listarTodosAprendices();
 
 function AsignarSeguimiento(idMatricula){
   listarMunicipios();
-  buscarAprendizMatricula(idMatricula);
+  //buscarAprendizMatricula(idMatricula);
   Frm_EtapaPractica.show();
 }
-
+/*
 function buscarAprendizMatricula(idMatricula){
 fetch(`/buscarAprendizMatricula/${idMatricula}`, {
     method: 'get'
@@ -45,28 +45,124 @@ fetch(`/buscarAprendizMatricula/${idMatricula}`, {
    document.getElementById('telefono').value=data[0].telefono;
    document.getElementById('correo').value=data[0].correo;
    document.getElementById('municipio').value=data[0].municipio;
+   
+   
 });  
 
 }
-
+*/
 
 function nuevoAprendiz(){
   listarMunicipios();
+  listarFichasActivas();
   Frm_NuevoAprendiz.show();
 }
 
 
 
-function registrarAprendiz(){
-  let mpio = document.getElementById('municipios').value
-  alert(mpio);
+function listarFichasActivas(){
+  fetch(`/listarFichasActivas`, {
+    method: 'get'
+}).then(res => res.json())
+.then(data => {
+   
+  let html=`<option value='0' selected disabled>Seleccione una Ficha</option>`;
+  data.forEach(element => { 
+    html+=`<option value='${element.codigo}'>${element.codigo} - ${element.nombre_programa} </option>`;           
+  });
+  document.getElementById('fichas').innerHTML = html;   
+});  
 
-let datos= new URLSearchParams();
+}
+
+
+
+
+function registrarMatricula(){
+
+  let datos= new URLSearchParams();
+    datos.append('id_persona', document.getElementById('id_persona').value);
+    datos.append('ficha',document.getElementById('fichas').value);
+    datos.append('estado',document.getElementById('estado').value);
+    datos.append('ingles',document.getElementById('ingles').value);
+    datos.append('tecnico',document.getElementById('tecnico').value);
+    datos.append('transversal',document.getElementById('transversal').value);
+
+
+    
+   fetch(`/registrarMatricula`, {
+               method: 'post',
+               body: datos,
+           }).then(res => res.json())
+           .then(data => {
+            listarTodosAprendices();
+            Frm_NuevoAprendiz.hide();
+            Mensaje.fire({
+              icon: data.icon,
+              title: data.text
+          })
+             
+           });   
+ 
+ 
+ }
+
+
+function registrarEtapaPractica(){
+  alert("EEEE");
+}
+
+
+
+function buscarAprendiz(){
+ let identificacion= document.getElementById('identificacion').value;
+
+  fetch(`/buscarAprendiz/${identificacion}`, {
+              method: 'get' 
+          }).then(res => res.json())
+          .then(data => {
+      
+            if(data.length >0) {
+            document.getElementById('identificacion').value=data[0].identificacion;
+            document.getElementById('nombres').value=data[0].nombres;
+            document.getElementById('telefono').value=data[0].telefono;
+            document.getElementById('correo').value=data[0].correo;
+            document.getElementById('municipios').value=data[0].municipio;
+            document.getElementById('id_persona').value=data[0].id_persona;
+            document.getElementById('fichas').value=data[0].ficha;
+            document.getElementById('transversal').value=data[0].pendiente_transversales;
+            document.getElementById('tecnico').value=data[0].pendiente_tecnicos;
+            document.getElementById('ingles').value=data[0].pendiente_ingles;
+            document.getElementById('estado').value=data[0].estado;
+            
+            }else{
+              limpiarFormularioAprendiz();
+            }
+            
+          });   
+
+
+}
+
+
+function limpiarFormularioAprendiz(){
+
+            document.getElementById('identificacion').value='';
+            document.getElementById('nombres').value='';
+            document.getElementById('telefono').value='';
+            document.getElementById('correo').value='';
+            document.getElementById('municipios').value='';
+            document.getElementById('id_persona').value='';
+
+}
+
+function registrarAprendiz(){
+    let datos= new URLSearchParams();
     datos.append('identificacion',document.getElementById('identificacion').value);
     datos.append('nombres',document.getElementById('nombres').value);
     datos.append('telefono',document.getElementById('telefono').value);
     datos.append('correo',document.getElementById('correo').value);
-    datos.append('municipio',1);
+    datos.append('municipio',document.getElementById('municipios').value);
   
     fetch(`/registrarAprendiz`, {
                 method: 'post',
@@ -74,16 +170,12 @@ let datos= new URLSearchParams();
             }).then(res => res.json())
             .then(data => {
             listarTodosAprendices();
-            
             Mensaje.fire({
                 icon: data.icon,
                 title: data.text
             })
 
             });   
-
-
-
 }
 
 
@@ -129,7 +221,7 @@ function listarMunicipios(){
      
     let html=`<option value='0' selected disabled>Seleccionar un municipio</option>`;
     data.forEach(element => { 
-      html+=`<option value='${element.periodo}'>${element.nombre_mpio} - ${element.departamento} </option>`;           
+      html+=`<option value='${element.id_municipio}'>${element.nombre_mpio} - ${element.departamento} </option>`;           
     });
     document.getElementById('municipios').innerHTML = html;  
     

@@ -24,7 +24,7 @@
   UNIQUE KEY `identificacion_unique` (`identificacion`),
   KEY `persona_municipio` (`municipio`),
   CONSTRAINT `persona_municipio` FOREIGN KEY (`municipio`) REFERENCES `municipios` (`id_municipio`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="municipios" view="colnames">
 <left>504</left>
@@ -141,7 +141,7 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="productiva" view="colnames">
-<left>360</left>
+<left>348</left>
 <top>263</top>
 <width>149</width>
 <height>255</height>
@@ -164,8 +164,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="bitacoras" view="colnames">
-<left>32</left>
-<top>227</top>
+<left>24</left>
+<top>172</top>
 <width>115</width>
 <height>180</height>
 <sql_create_table>CREATE TABLE `bitacoras` (
@@ -241,7 +241,7 @@
   `id_matricula` int NOT NULL AUTO_INCREMENT,
   `ficha` int DEFAULT NULL,
   `aprendiz` int DEFAULT NULL,
-  `estado` enum('Etapa Practica','Induccion','Retiro Voluntario','Certificado','Condicionado','Formación') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `estado` enum('Inducción','Formación','Retiro Voluntario','Condicionado','Etapa Practica','Certificado') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `pendiente_tecnicos` int DEFAULT NULL,
   `pendiente_transversales` int DEFAULT NULL,
   `pendiente_ingles` int DEFAULT NULL,
@@ -250,7 +250,7 @@
   KEY `matriculas_personas` (`aprendiz`),
   CONSTRAINT `matricula_ficha` FOREIGN KEY (`ficha`) REFERENCES `fichas` (`codigo`),
   CONSTRAINT `matriculas_personas` FOREIGN KEY (`aprendiz`) REFERENCES `personas` (`id_persona`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="vinculacion" view="colnames">
 <left>215</left>
