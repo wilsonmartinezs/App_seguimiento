@@ -1,4 +1,10 @@
-
+moment.defineLocale('es', {
+  months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+  monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
+  weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
+  weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
+  weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
+  });
 
 const Mensaje = Swal.mixin({
     toast: true,
@@ -19,9 +25,13 @@ const Mensaje = Swal.mixin({
 });
 
 
-var Frm_NuevoAprendiz = new bootstrap.Modal(document.getElementById('Frm_NuevoAprendiz'), {
+
+
+
+var frmDocumentos = new bootstrap.Modal(document.getElementById('frmDocumentos'), {
   keyboard: false
 });
+
 
 
 
@@ -29,182 +39,145 @@ var Frm_NuevoAprendiz = new bootstrap.Modal(document.getElementById('Frm_NuevoAp
 listarTodosAprendices();
 
 
-function AsignarSeguimiento(idMatricula){
-  listarMunicipios();
-  //buscarAprendizMatricula(idMatricula);
-  Frm_EtapaPractica.show();
-}
-/*
-function buscarAprendizMatricula(idMatricula){
-fetch(`/buscarAprendizMatricula/${idMatricula}`, {
-    method: 'get'
-}).then(res => res.json())
-.then(data => { 
-   document.getElementById('identificacion').value=data[0].identificacion;
-   document.getElementById('nombres').value=data[0].nombres;
-   document.getElementById('telefono').value=data[0].telefono;
-   document.getElementById('correo').value=data[0].correo;
-   document.getElementById('municipio').value=data[0].municipio;
-   
-   
-});  
-
-}
-*/
-
-function nuevoAprendiz(){
-  listarMunicipios();
-  listarFichasActivas();
-  Frm_NuevoAprendiz.show();
-}
-
-
-
-function listarFichasActivas(){
-  fetch(`/listarFichasActivas`, {
-    method: 'get'
+function listarInstructoresVinculados() {
+  fetch(`/listarInstructoresVinculados`, {
+    method:'get'    
 }).then(res => res.json())
 .then(data => {
-   
-  let html=`<option value='0' selected disabled>Seleccione una Ficha</option>`;
-  data.forEach(element => { 
-    html+=`<option value='${element.codigo}'>${element.codigo} - ${element.nombre_programa} </option>`;           
-  });
-  document.getElementById('fichas').innerHTML = html;   
-});  
+  
+   let html=`<option value='0' selected disabled>Seleccione una opción</option>`;
+    data.forEach(element => {
+    html+=`<option value='${element.id_vinculacion}'> ${element.nombres}</option>`;
+    });   
+    document.getElementById('instructores').innerHTML = html;  
+});
 
+  
 }
 
 
 
 
-function registrarMatricula(){
 
-  let datos= new URLSearchParams();
-    datos.append('id_persona', document.getElementById('id_persona').value);
-    datos.append('ficha',document.getElementById('fichas').value);
-    datos.append('estado',document.getElementById('estado').value);
-    datos.append('ingles',document.getElementById('ingles').value);
-    datos.append('tecnico',document.getElementById('tecnico').value);
-    datos.append('transversal',document.getElementById('transversal').value);
-
-
-    
-   fetch(`/registrarMatricula`, {
-               method: 'post',
-               body: datos,
-           }).then(res => res.json())
-           .then(data => {
-            listarTodosAprendices();
-            Frm_NuevoAprendiz.hide();
-            Mensaje.fire({
-              icon: data.icon,
-              title: data.text
-          })
-             
-           });   
+function legalizarEtapaPractica(idMatricula){
  
- 
- }
-
-
-function registrarEtapaPractica(){
-  alert("EEEE");
+  nuevaEtapaPractica(idMatricula);
 }
 
 
 
-function buscarAprendiz(){
- let identificacion= document.getElementById('identificacion').value;
+function subirAcuerdoVoluntades(){
+  document.getElementById("titulo_archivo").innerHTML='Subir Acuerdo Voluntades'
+document.getElementById('tipo_documento').value='Acuerdo';
+frmDocumentos.show();
 
-  fetch(`/buscarAprendiz/${identificacion}`, {
-              method: 'get' 
+}
+
+
+function subirArl(){
+  document.getElementById("titulo_archivo").innerHTML='Subir Afiliacion Arl';
+document.getElementById('tipo_documento').value='Arl';
+frmDocumentos.show();
+
+}
+
+function subirConsulta(){
+  document.getElementById("titulo_archivo").innerHTML='Subir Consulta Etapa Practica';
+document.getElementById('tipo_documento').value='Consulta';
+frmDocumentos.show();
+
+}
+
+
+function descargarDocumento(documento){
+
+  var url="/soportes/" + documento;
+  window.open(url, 'Download');
+
+}
+
+function nuevaEtapaPractica(idMatricula){
+  fetch(`/nuevaEtapaPractica/${idMatricula}`, {
+              method: 'get'
           }).then(res => res.json())
           .then(data => {
-      
-            if(data.length >0) {
-            document.getElementById('identificacion').value=data[0].identificacion;
-            document.getElementById('nombres').value=data[0].nombres;
-            document.getElementById('telefono').value=data[0].telefono;
-            document.getElementById('correo').value=data[0].correo;
-            document.getElementById('municipios').value=data[0].municipio;
-            document.getElementById('id_persona').value=data[0].id_persona;
-            document.getElementById('fichas').value=data[0].ficha;
-            document.getElementById('transversal').value=data[0].pendiente_transversales;
-            document.getElementById('tecnico').value=data[0].pendiente_tecnicos;
-            document.getElementById('ingles').value=data[0].pendiente_ingles;
-            document.getElementById('estado').value=data[0].estado;
-            
-            }else{
-              limpiarFormularioAprendiz();
-            }
+           document.getElementById('idPractica').value=data.datos[0].id_productiva;
+           document.getElementById('estado_productiva').value=data.datos[0].estado;
+           document.getElementById('alternativa').value=data.datos[0].alternativa;
+           let fechaInicio = moment(data.datos[0].fecha_inicio).format('YYYY-MM-DD');
+           document.getElementById('fecha_inicio').value=fechaInicio;
+           let fechaFin = moment(data.datos[0].fecha_fin).format('YYYY-MM-DD');
+           document.getElementById('fecha_fin').value=fechaFin;
+           document.getElementById('link_acuerdo').innerHTML=  data.datos[0].acuerdo =='' ? 'No' :`<a href=javascript:descargarDocumento('${data.datos[0].acuerdo}')>Descargar</a>` ;
+           document.getElementById('link_arl').innerHTML= data.datos[0].arl =='' ? 'No' :`<a href=javascript:descargarDocumento('${data.datos[0].arl}')>Descargar</a>` ;
+           document.getElementById('link_consulta').innerHTML=data.datos[0].acuerdo =='' ? 'No' :`<a href=javascript:descargarDocumento('${data.datos[0].consulta}')>Descargar</a>` ;
+           listarMunicipios();
+           listarInstructoresVinculados();
+        
+         
+           Frm_EtapaPractica.show();
+           Mensaje.fire({
+             icon: data.icon,
+             title: data.text
+         })
             
           });   
+ 
+ }
+ 
 
-
-}
-
-
-function limpiarFormularioAprendiz(){
-
-            document.getElementById('identificacion').value='';
-            document.getElementById('nombres').value='';
-            document.getElementById('telefono').value='';
-            document.getElementById('correo').value='';
-            document.getElementById('municipios').value='';
-            document.getElementById('id_persona').value='';
-
-}
-
-function registrarAprendiz(){
-    let datos= new URLSearchParams();
-    datos.append('identificacion',document.getElementById('identificacion').value);
-    datos.append('nombres',document.getElementById('nombres').value);
-    datos.append('telefono',document.getElementById('telefono').value);
-    datos.append('correo',document.getElementById('correo').value);
-    datos.append('municipio',document.getElementById('municipios').value);
-  
-    fetch(`/registrarAprendiz`, {
-                method: 'post',
-                body: datos,   
-            }).then(res => res.json())
-            .then(data => {
-            listarTodosAprendices();
-            Mensaje.fire({
-                icon: data.icon,
-                title: data.text
+function cargarArchivo(){
+  let datos= new FormData();
+  datos.append('idPractica',   document.getElementById('idPractica').value);
+  datos.append('tipo_documento',document.getElementById('tipo_documento').value);
+  let FileN = document.getElementById('archivo');
+  datos.append('img', FileN.files[0]);
+  fetch('/cargarArchivo',
+            {
+                method: 'POST',
+                body:datos
             })
-
-            });   
-}
-
-
-
-
-function actualizarAprendiz(){
-  let mpio = document.getElementById('municipios').value
-  alert(mpio);
-
-let datos= new URLSearchParams();
-    datos.append('identificacion',document.getElementById('identificacion').value);
-    datos.append('nombres',document.getElementById('nombres').value);
-    datos.append('telefono',document.getElementById('telefono').value);
-    datos.append('correo',document.getElementById('correo').value);
-    datos.append('municipio',1);
-  
-    fetch(`/actualizarAprendiz`, {
-                method: 'post',
-                body: datos,   
-            }).then(res => res.json())
-            .then(data => {
-            listarTodosAprendices();
-            
+        .then(resp =>resp.json())
+        .then(data=>{
+          frmDocumentos.hide();
             Mensaje.fire({
-                icon: data.icon,
-                title: data.text
-            })
+            icon: 'success',
+            title: data.text
+            });
 
-            });   
+        });
+        
+
+}
+
+
+function actualizarEtapaPractica(){
+
+
+ let datos= new URLSearchParams();
+  datos.append('idPractica',   document.getElementById('idPractica').value);
+  datos.append('estado',document.getElementById('estado_productiva').value);
+  datos.append('alternativa',document.getElementById('alternativa').value);
+  datos.append('fecha_inicio',document.getElementById('fecha_inicio').value);
+  datos.append('fecha_fin',document.getElementById('fecha_fin').value);
+ 
+
+ fetch(`/actualizarEtapaPractica`, {
+             method: 'post',
+             body: datos,
+         }).then(res => res.json())
+         .then(data => {
+        //  listarTodosAprendices();
+
+          Frm_NuevoAprendiz.hide();
+          Mensaje.fire({
+            icon: data.icon,
+            title: data.text
+        })
+           
+         });   
+
+
 
 
 
@@ -212,30 +185,7 @@ let datos= new URLSearchParams();
 
 
 
-
-function listarMunicipios(){
-  fetch(`/listarMunicipios`, {
-      method: 'get'
-  }).then(res => res.json())
-  .then(data => {
-     
-    let html=`<option value='0' selected disabled>Seleccionar un municipio</option>`;
-    data.forEach(element => { 
-      html+=`<option value='${element.id_municipio}'>${element.nombre_mpio} - ${element.departamento} </option>`;           
-    });
-    document.getElementById('municipios').innerHTML = html;  
-    
-     
-  });  
-  
-  }
-
-
-
-
-
-
-  function listarTodosAprendices() {
+function listarTodosAprendices() {
 
     fetch(`/listarTodosAprendices`, {
         method:'get'    
@@ -245,7 +195,7 @@ function listarMunicipios(){
       let arrayDatos = [];
       let accionBTN='';
       data.forEach(element => {   
-          accionBTN =` <a class="btn btn-primary" href="javascript:AsignarSeguimiento(${element.id_matricula})" title='Asignar'>
+          accionBTN =` <a class="btn btn-primary" href="javascript:legalizarEtapaPractica(${element.id_matricula})" title='Asignar'>
                         <i class="fa-solid fa-pen-to-square"></i> </a>
                    `;
           
@@ -282,22 +232,22 @@ function listarMunicipios(){
 }
 
 
-// listar todos los aprendices
-/*
-function listarFichasActivas(){
-  
-  fetch(`/listarFichasActivas`, {
-      method:'get'    
+function listarMunicipios(){
+  fetch(`/listarMunicipios`, {
+      method: 'get'
   }).then(res => res.json())
   .then(data => {
-      let html=`<option value='0'>Seleccione una opción</<option>`;
-      data.forEach(element => { 
-          html+=`<option value='${element.codigo}'>${element.codigo} - ${element.nombre_programa}</<option>`;         
-      });
-      document.getElementById('Lista_Fichas').innerHTML = html;  
-  });
+     
+    let html=`<option value='0' selected disabled>Seleccionar un municipio</option>`;
+    data.forEach(element => { 
+      html+=`<option value='${element.id_municipio}'>${element.nombre_mpio} - ${element.departamento} </option>`;           
+    });
+    document.getElementById('municipios').innerHTML = html;  
+    
+     
+  });  
+  
+  }
 
 
-}
 
-*/

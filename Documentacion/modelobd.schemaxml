@@ -147,21 +147,21 @@
 <height>255</height>
 <sql_create_table>CREATE TABLE `productiva` (
   `id_productiva` int NOT NULL AUTO_INCREMENT,
-  `aprendiz` int DEFAULT NULL,
+  `matricula` int DEFAULT NULL,
   `empesa` int DEFAULT NULL,
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
   `alternativa` enum('Contrato de Aprendizaje','Proyecto Productivo','Pasantias','Monitoria') DEFAULT NULL,
-  `estado` enum('Inicio','Renuncia') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `estado` enum('Inicio','Renuncia','Terminado') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `acuerdo` varchar(100) DEFAULT NULL,
   `arl` varchar(100) DEFAULT NULL,
   `certificado` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id_productiva`),
-  KEY `aprendiz_matricula` (`aprendiz`),
+  KEY `aprendiz_matricula` (`matricula`),
   KEY `empresa_matricula` (`empesa`),
   CONSTRAINT `empresa_matricula` FOREIGN KEY (`empesa`) REFERENCES `empresa` (`id_empresa`),
-  CONSTRAINT `practica_aprendiz` FOREIGN KEY (`aprendiz`) REFERENCES `matriculas` (`id_matricula`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
+  CONSTRAINT `practica_aprendiz` FOREIGN KEY (`matricula`) REFERENCES `matriculas` (`id_matricula`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="bitacoras" view="colnames">
 <left>24</left>
@@ -212,7 +212,7 @@
   PRIMARY KEY (`id_empresa`),
   KEY `empresa_minicipio` (`municipio`),
   CONSTRAINT `empresa_minicipio` FOREIGN KEY (`municipio`) REFERENCES `municipios` (`id_municipio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="asignaciones" view="colnames">
 <left>33</left>

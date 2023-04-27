@@ -35,17 +35,4 @@ controlador.registrarAprendiz = async(req, res) => {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = controlador;

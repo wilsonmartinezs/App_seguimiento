@@ -39,6 +39,7 @@ app.use(require('./routes/routePersona'));
 app.use(require('./routes/routeEtapaPractica'));
 app.use(require('./routes/routeFicha'));
 app.use(require('./routes/routeMatricula'));
+app.use(require('./routes/routeVinculacion'));
 
 
 app.listen(app.get('port'), function() {

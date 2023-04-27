@@ -4,7 +4,14 @@ const conexion = require('../database/conexion_pool');
 const controlador={}
 
 
-
+controlador.matriculaAprendiz = (req, res) => {
+    let  user= req.session.user;
+   if(user){
+        res.render('matricula.ejs',{user});
+   }else{
+    res.redirect('/');
+   }   
+}
 
 
 
