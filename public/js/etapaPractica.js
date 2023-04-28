@@ -196,6 +196,8 @@ function nuevaEtapaPractica(idMatricula){
            listarMunicipios();
            listarInstructoresVinculados();
            listarInstructoresSeguimiento();
+           listarEmpresasActivas();
+           listarEmpresaSeleccionada();
          
            Frm_EtapaPractica.show();
            Mensaje.fire({
@@ -330,4 +332,129 @@ function listarMunicipios(){
   }
 
 
+function seleccionarEmpresa(id_empresa){
+let datos= new URLSearchParams();
+datos.append('idPractica',   document.getElementById('idPractica').value);
+datos.append('id_empresa', id_empresa);
+  
+ fetch(`/seleccionarEmpresa`, {
+             method: 'post',
+             body: datos,
+         }).then(res => res.json())
+         .then(data => {
+          listarEmpresaSeleccionada();
+            Mensaje.fire({
+            icon: data.icon,
+            title: data.text
+        })
+           
+         });   
+
+
+}
+
+
+function listarEmpresaSeleccionada(){
+
+ let idPractica =  document.getElementById('idPractica').value;
+    
+   fetch(`/listarEmpresaSeleccionada/${idPractica}`, {
+               method: 'get'
+           }).then(res => res.json())
+           .then(data => {
+             console.log(data);
+
+
+             let html=``;
+             data.forEach(element => {
+        
+               let boton= '';
+               
+               boton=  `<a href='javaScript:desvincularEmpresa(${element.id_productiva})'>Eliminar</a>`;
+   
+           
+               html+=`<tr>
+                   <td>${element.razon_social}</td>
+                   <td>${element.nombre_mpio}</td>
+                   <td>${element.direccion}</td>
+                   <td>${element.telefono}</td>
+                   <td>${element.correo}</td>
+                   <td>${boton}</td>
+                   </tr> 
+                   `;
+             });   
+              html +=``;
+             document.getElementById('tablaEmpresaSeleccionada').innerHTML = html; 
+
+
+             
+           });   
+  
+  
+  }
+  
+function desvincularEmpresa(id_productiva){
+ 
+ fetch(`/desvincularEmpresa/${id_productiva}`, {
+             method: 'get',
+         }).then(res => res.json())
+         .then(data => {
+          listarEmpresaSeleccionada();
+            Mensaje.fire({
+            icon: data.icon,
+            title: data.text
+        })
+           
+         });   
+
+
+
+
+
+}
+
+function listarEmpresasActivas() {
+
+    fetch(`/listarEmpresasActivas`, {
+        method:'get'    
+    }).then(res => res.json())
+    .then(data => {
+      
+      let arrayDatos = [];
+      let accionBTN='';
+      data.forEach(element => {   
+          accionBTN =` <a class="btn btn-primary" href="javascript:seleccionarEmpresa(${element.id_empresa})" title='Seleccionar'>
+                        <i class="fa-solid fa-pen-to-square"></i> </a>
+                   `;
+          //emp.id_empresa,emp.razon_social,emp.direccion,emp.telefono,emp.correo,mu.nombre_mpio
+          let dato = {
+            razon_social:element.razon_social,
+            direccion:element.direccion,
+            telefono:element.telefono,
+            correo:element.correo,
+            nombre_mpio:element.nombre_mpio,
+            Accion : accionBTN
+          }
+          arrayDatos.push(dato);
+      });
+
+      $('#tablaEmpresas').DataTable({
+          lengthChange: false,
+          autoWidth: false,
+          destroy: true,
+          responsive: true,
+          data: arrayDatos,
+          columns: [
+              {"data": "razon_social"},
+              {"data": "direccion"},
+              {"data": "telefono"},
+              {"data": "correo"},
+              {"data": "nombre_mpio"},
+              {"data": "Accion"}     
+          ]
+      });
+
+
+    });
+}
 

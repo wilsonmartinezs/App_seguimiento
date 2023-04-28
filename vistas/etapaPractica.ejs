@@ -152,10 +152,6 @@
                           </div>
                       </div>
               
-                       
-
-
-          
                <div class="modal-footer">
                   <button type="button"  class="btn btn-primary" onclick="actualizarEtapaPractica()">Registrar</button>
               </div>
@@ -173,18 +169,49 @@
 
                 <div class="row">
             
-                  <div class="col-2 mt-3">
-                    <label for="message-text" class="col-form-label">Empresa:</label>
-                  </div>
-                  <div class="col-7 mt-3">
-                    <select id="empresa" class="form-control" >
-                    </select>
-                   
-                  </div>
-                  <div class="col-3 mt-3">
-                    <button type="button"  class="btn btn-primary" onclick="registrarDatosEprendiz()">Add</button>
-                  </div>
+                  <div class="col-12">
+                    <table class="table">
+                      <th>Empresa</th>
+                      <th>Municipio</th>
+                      <th>Dirección</th>
+                      <th>Telefono</th>
+                      <th>Correo</th>
+                      <th>Admin.</th>
 
+                      <tbody id="tablaEmpresaSeleccionada"></tbody>
+                    </table>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-12">
+                   <div class="accordion mt-2" id="accordionExample" >
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Listado de Empresas
+                          </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <button type="button"  class="btn btn-primary" onclick="nuevaEmpresa()">Add</button>
+                   
+                            <table class="table"  id="tablaEmpresas">
+                              <th>Empresa</th>
+                              <th>Municipio</th>
+                              <th>Dirección</th>
+                              <th>Telefono</th>
+                              <th>Correo</th>
+                             
+                              <tbody></tbody>
+                            </table>
+                           
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  
+                  
+                  </div>
                </div>
 
                    <div class="modal-footer">
@@ -246,9 +273,6 @@
                   </div>
                 </div>
 
-
-
-              
               
            </div>
           

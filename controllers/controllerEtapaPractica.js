@@ -57,7 +57,6 @@ controlador.desplegarEtapaPractica = (req, res) => {
 }
 
 
-
 controlador.cargarArchivo =async (req, res) => { 
     try{
 
@@ -118,10 +117,6 @@ controlador.desactivarAsignacion =async (req, res) => {
 } 
 
 
-
-
-
-
 controlador.asignarInstructor =async (req, res) => { 
     try{
 
@@ -159,6 +154,12 @@ controlador.asignarInstructor =async (req, res) => {
 } 
 
 
+
+
+
+
+
+
 controlador.listarInstructoresSeguimiento =async (req, res) => { 
     try{
         let sql_consulta= `SELECT asig.id_asignacion,per.nombres,asig.fecha_inicio,asig.fecha_fin,asig.estado FROM asignaciones asig 
@@ -172,8 +173,6 @@ controlador.listarInstructoresSeguimiento =async (req, res) => {
         console.log('Controlador Etapa Practica '+e); 
     } 
 } 
-
-
 
 
 
@@ -219,9 +218,6 @@ controlador.nuevaEtapaPractica =async (req, res) => {
  } 
 
 
-
-
-
 controlador.actualizarEtapaPractica =async (req, res) => { 
      try{
  //acuerdo,arl,consulta
@@ -248,7 +244,72 @@ controlador.actualizarEtapaPractica =async (req, res) => {
      } 
  } 
  
+
+
+ controlador.seleccionarEmpresa =async (req, res) => { 
+    try{
+        let {idPractica,id_empresa}= req.body;
+       
+            let sql_update=`update productiva 
+                            set empresa='${id_empresa}' 
+                            where id_productiva=${idPractica}`; 
+           
+        const operacion = await conexion.query(sql_update);     
+        return res.status(200).json({
+            titulo: "Datos Etapa Practica",
+            icon: "success",
+            text: 'Empresa seleccionada con éxito'
+        });
+
+    }catch (e) {
+        console.log(e); 
+    } 
+} 
  
+
+
+controlador.desvincularEmpresa =async (req, res) => { 
+    try{
+        let id_productiva= req.params.id_productiva;
+       
+            let sql_update=`update productiva 
+                            set empresa=NULL 
+                            where id_productiva=${id_productiva}`; 
+           
+        const operacion = await conexion.query(sql_update);     
+        return res.status(200).json({
+            titulo: "Datos Etapa Practica",
+            icon: "success",
+            text: 'Empresa desvinculada con éxito'
+        });
+
+    }catch (e) {
+        console.log(e); 
+    } 
+} 
+ 
+
+
+
+
+controlador.listarEmpresaSeleccionada =async (req, res) => { 
+
+    let id_productiva= req.params.id_productiva;
+    try{
+        let sql_consulta= `
+                            SELECT pro.id_productiva,emp.id_empresa,emp.razon_social,emp.direccion,emp.telefono,emp.correo,mu.nombre_mpio 
+                            FROM empresa emp  
+                            JOIN municipios mu ON mu.id_municipio = emp.municipio
+                            JOIN productiva pro ON pro.empresa = emp.id_empresa
+                            WHERE pro.id_productiva =${id_productiva}
+         `;
+        const [rows] = await conexion.query(sql_consulta);
+        res.json(rows);
+
+    }catch (e) {
+        console.log('Controlador Etapa Practica '+e); 
+    } 
+} 
 
 
 

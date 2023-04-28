@@ -16,6 +16,12 @@ rutaEtapaPractica.get('/listarInstructoresSeguimiento',controladorEtapaPractica.
 
 rutaEtapaPractica.get('/desactivarAsignacion/:id_asignacion',controladorEtapaPractica.desactivarAsignacion)
 
+rutaEtapaPractica.post('/seleccionarEmpresa',controladorEtapaPractica.seleccionarEmpresa)
+
+rutaEtapaPractica.get('/listarEmpresaSeleccionada/:id_productiva',controladorEtapaPractica.listarEmpresaSeleccionada)
+
+rutaEtapaPractica.get('/desvincularEmpresa/:id_productiva',controladorEtapaPractica.desvincularEmpresa)
+
 
 
 module.exports = rutaEtapaPractica;

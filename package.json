@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,7 +23,6 @@
     "moment": "^2.29.4",
     "multer-js": "^1.4.3",
     "mysql2": "^2.3.3",
-    "nodemon": "^2.0.16",
     "pdfkit": "^0.13.0",
     "pdfkit-construct": "^1.2.3",
     "sweetalert2": "^11.4.24"
@@ -30,5 +30,8 @@
   "bugs": {
     "url": "https://github.com/JDavid80/GCC/issues"
   },
-  "homepage": "https://github.com/JDavid80/GCC#readme"
+  "homepage": "https://github.com/JDavid80/GCC#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }

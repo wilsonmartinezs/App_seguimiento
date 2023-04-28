@@ -40,6 +40,7 @@ app.use(require('./routes/routeEtapaPractica'));
 app.use(require('./routes/routeFicha'));
 app.use(require('./routes/routeMatricula'));
 app.use(require('./routes/routeVinculacion'));
+app.use(require('./routes/routeEmpresa'));
 
 
 app.listen(app.get('port'), function() {

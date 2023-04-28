@@ -22,16 +22,4 @@ Controlador.listarFichasActivas = async (req, res) => {
 
 
 
-
-
-
- 
-
-
-
-
-
-
-
-
 module.exports = Controlador;
