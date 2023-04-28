@@ -57,10 +57,7 @@ controlador.registrarMatricula =async (req, res) => {
 
 
 
-
-// Se litan todos los aprendices de las fichas y su estado en la etapa practica 
-
-controlador.listarTodosAprendices =async (req, res) => { 
+controlador.listarAprendicesMatriculados =async (req, res) => { 
     try{
     let sql=  `
                 SELECT ma.id_matricula,pe.id_persona,pe.identificacion,pe.nombres,pe.telefono,pe.correo,fi.codigo,pro.sigla,ma.estado
@@ -69,6 +66,42 @@ controlador.listarTodosAprendices =async (req, res) => {
                 JOIN fichas fi ON fi.codigo =  ma.ficha
                 JOIN programas pro ON pro.id_programa = fi.programa
                 WHERE pe.cargo = 'Aprendiz'
+            `;
+    const [rows] = await conexion.query(sql);
+        res.json(rows);
+    }catch (e) {
+        console.log(e); 
+    } 
+} 
+
+
+
+
+
+
+// Se litan todos los aprendices de las fichas y su estado en la etapa practica 
+
+controlador.listarAprendicesEtapaPractica =async (req, res) => { 
+    try{
+    let sql=  `
+                SELECT ma.id_matricula,pe.id_persona,pe.identificacion,pe.nombres,pe.telefono,pe.correo,fi.codigo,pro.sigla,ma.estado,
+                (SELECT alternativa FROM productiva prod WHERE prod.matricula = ma.id_matricula) AS alternativa,
+                (SELECT CONCAT(fecha_inicio,' Al ',fecha_fin) FROM productiva prod WHERE prod.matricula = ma.id_matricula) AS fechas,
+                (SELECT razon_social FROM productiva prod  JOIN empresa em ON em.id_empresa=prod.empresa
+                WHERE prod.matricula = ma.id_matricula) AS empresa,
+
+                 (SELECT p.nombres FROM productiva prod 
+                    JOIN asignaciones a ON a.productiva=prod.id_productiva
+                    JOIN vinculacion v ON v.id_vinculacion=a.instructor
+                    JOIN personas p ON p.id_persona = v.instructor
+                    WHERE prod.matricula = ma.id_matricula AND a.estado='Activo') AS instructor
+
+
+                FROM matriculas ma
+                JOIN personas pe ON pe.id_persona = ma.aprendiz
+                JOIN fichas fi ON fi.codigo =  ma.ficha
+                JOIN programas pro ON pro.id_programa = fi.programa
+                WHERE pe.cargo = 'Aprendiz' and ma.estado='Etapa Practica'
             `;
     const [rows] = await conexion.query(sql);
         res.json(rows);

@@ -39,8 +39,10 @@
                     <th>IDENTIFICACIÓN</th>
                     <th>NOMBRES</th>
                     <th>FICHA</th>
-                    <th>PROGRAMA</th>
-                    <th>ESTADO</th>
+                    <th>ALTERNATIVA</th>
+                    <th>FECHAS</th>
+                    <th>EMPRESA</th>
+                    <th>INSTRUCTOR</th>
                     <th>Admin.</th>  
                 </tr>
             </thead>
@@ -52,136 +54,6 @@
    </section>
 
 
-   <div class="modal fade" id="Frm_NuevoAprendiz" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Resgistrar Nuevo Aprendiz</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#basico" type="button" role="tab" aria-controls="home" aria-selected="true">DATOS BÁSICOS</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#ficha" type="button" role="tab" aria-controls="profile" aria-selected="false">DATOS DE LA MATRICULA</button>
-            </li>
-            
-             
-          </ul>
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="basico" role="tabpanel" aria-labelledby="home-tab">
-                <h4 class="text-center">Datos del Aprendiz</h4>
-                <input type="number" class="form-control" id='id_persona' disabled > 
-                         
-                <form>
-                  <div class="mb-2">
-                    <div class="row">
-                      <div class="col-5">
-                          <label for="message-text" class="col-form-label">Identificacion:</label>
-                          <input type="number" class="form-control" id='identificacion' placeholder="Digite la identificación"> 
-                         
-                      </div>
-                      <div class="col-2">
-                       <a class="btn btn-primary mt-4" href="javaScript:buscarAprendiz()">Buscar</a>
-                    </div>
-  
-                      <div class="col-5">
-                          <label for="message-text" class="col-form-label">Nombres:</label>
-                          <input type="text" class="form-control" id='nombres' placeholder="Digite el nombre del aprendiz">  
-                      </div>
-                   </div>
-  
-                  <div class="row">
-                      <div class="col-6">
-                          <label for="message-text" class="col-form-label">Telefono:</label>
-                          <input type="text" class="form-control" id='telefono' placeholder="Digite el telefono">  
-                      </div>
-  
-                      <div class="col-6">
-                          <label for="message-text" class="col-form-label">Correo:</label>
-                          <input type="text" class="form-control" id='correo' placeholder="Digite el correo">  
-                      </div>
-                   </div>
-  
-                  <div class="row">
-                    <div class="col-12">
-                        <label for="message-text" class="col-form-label">Municipio:</label>
-                        <select id='municipios' class="form-control" >
-                        </select>
-                    </div>
-                 </div>
-  
-                 <div class="modal-footer">
-                    <button type="button"  class="btn btn-primary" onclick="registrarAprendiz()">Registrar</button>
-                </div>
-              </div>
-               </form>        
-            </div> 
-  
-  
-            <div class="tab-pane fade" id="ficha" role="tabpanel" aria-labelledby="profile-tab">
-              <h4 class="text-center">Datos de la Ficha</h4>
-              <form>
-                <div class="mb-2">
-  
-                  <div class="row">
-                
-                    <div class="col-12">
-                      <label for="message-text" class="col-form-label">Ficha:</label>
-                      <select id="fichas" class="form-control" >
-                      </select>
-                    </div>
-    
-                 </div>
-             
-                        
-  
-                <div class="row">
-                 
-                  <div class="col-6">
-                    <label for="message-text" class="col-form-label">Transversales Pendientes:</label>
-                    <input type="number" id="transversal" class="form-control" value="0">                 
-                  </div>
-                  <div class="col-6">
-                    <label for="message-text" class="col-form-label">Tecnicos Pendientes:</label>
-                  <input type="number" id="tecnico" class="form-control" value="0">                
-                  </div>
-  
-               </div>
-  
-            
-             <div class="row">
-              <div class="col-6">
-                <label for="message-text" class="col-form-label">Ingles Pendientes:</label>
-                <input type="number" id="ingles" class="form-control" value="0">                 
-              </div>
-              <div class="col-6">
-                <label for="message-text" class="col-form-label">Estado:</label>
-                <select id="estado" class="form-control" >
-                  <option selected disabled>Seleccione una opción</option>
-                  <option value="Inducción">Induccion</option>
-                  <option value="Etapa Practica">Etapa Practica</option>
-                  <option value="Formación">Formación</option>
-                  <option value="Retiro Voluntario">Retiro Voluntario</option>
-                  <option value="Certificado">Certificado</option>
-                  <option value="Condicionado">Condicionado</option>
-                </select>
-              </div>
-           </div>
-               <div class="modal-footer">
-                  <button type="button"  class="btn btn-primary" onclick="registrarMatricula()">Registrar</button>
-              </div>
-            </div>
-             </form>   
-            </div>
-          </div>
-        </div>
-       
-      </div>
-    </div>
-  </div>
 
 
 
@@ -255,7 +127,7 @@
               
                       <div class="row mb-2">
                           <div class="col-12">
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover mt-3">
                                 <th>Tipo de Documento</th>
                                 <th>link de Descarga</th>
                                 <th>Cargar</th>
@@ -324,25 +196,64 @@
             </div>  
 
             <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="profile-tab">
-              <h4 class="text-center">Datos del Instructor</h4>
               <form>
-                <div class="mb-2">
+                <div class="mb-1">
 
-                <div class="row">
-            
-                  <div class="col-2 mt-3">
-                    <label for="message-text" class="col-form-label">Instructor:</label>
+                  <div class="row">
+                    <div class="col-12 mt-3">
+                      <label for="message-text" class="col-form-label">Instructor:</label>
+                      <select id="instructores" class="form-control" >
+                      </select>
+                    </div>
+                 </div>
+
+                
+
+                  <div class="row">
+                    <div class="col-6">
+                        <label for="message-text" class="col-form-label">Fecha Inicio:</label>
+                        <input type="date" id="fecha_inicio" class="form-control" placeholder="">
+                    </div>
+    
+                    <div class="col-6">
+                      <label for="message-text" class="col-form-label">Fecha Fin:</label>
+                      <input type="date" id="fecha_fin" class="form-control" placeholder=""/>
+                     </div>
+                 </div>  
+
+               
+                 <div class="accordion mt-2" id="accordionExample" >
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Historial de Instructores
+                      </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+
+                        <table class="table">
+                          <th>Instructor</th>
+                          <th>Fecha Inicio</th>
+                          <th>Fecha Fin</th>
+                          <th>Estado</th>
+                          <th>Admmin.</th>
+                          <tbody id="tablaHistorial"></tbody>
+                        </table>
+                       
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-7 mt-3">
-                    <select id="instructores" class="form-control" >
-                    </select>
-                   
-                  </div>
- 
-               </div>
+                </div>
+
+
+
+              
+              
+           </div>
           
                <div class="modal-footer">
-                  <button type="button"  class="btn btn-primary" onclick="registrarDatosEprendiz()">Registrar</button>
+                  <button type="button"  class="btn btn-primary" onclick="asignarInstructor()">Registrar</button>
               </div>
                 </div>
              </form> 

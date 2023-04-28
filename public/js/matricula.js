@@ -16,7 +16,7 @@ var Frm_NuevoAprendiz = new bootstrap.Modal(document.getElementById('Frm_NuevoAp
     keyboard: false
   });
 
-  listarTodosAprendices();
+  listarAprendicesMatriculados();
 
 function registrarMatricula(){
 
@@ -35,7 +35,7 @@ function registrarMatricula(){
                  body: datos,
              }).then(res => res.json())
              .then(data => {
-              listarTodosAprendices();
+              listarAprendicesMatriculados();
               Frm_NuevoAprendiz.hide();
               Mensaje.fire({
                 icon: data.icon,
@@ -128,7 +128,7 @@ function registrarAprendiz(){
                 body: datos,   
             }).then(res => res.json())
             .then(data => {
-            listarTodosAprendices();
+              listarAprendicesMatriculados();
             Mensaje.fire({
                 icon: data.icon,
                 title: data.text
@@ -154,7 +154,7 @@ function actualizarAprendiz(){
                   body: datos,   
               }).then(res => res.json())
               .then(data => {
-              listarTodosAprendices();
+                listarAprendicesMatriculados();
               
               Mensaje.fire({
                   icon: data.icon,
@@ -196,9 +196,9 @@ function actualizarMatricula(identificacion){
 
     }
 
-    function listarTodosAprendices() {
+    function listarAprendicesMatriculados() {
 
-        fetch(`/listarTodosAprendices`, {
+        fetch(`/listarAprendicesMatriculados`, {
             method:'get'    
         }).then(res => res.json())
         .then(data => {

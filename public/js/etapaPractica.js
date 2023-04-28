@@ -36,7 +36,89 @@ var frmDocumentos = new bootstrap.Modal(document.getElementById('frmDocumentos')
 
 
 
-listarTodosAprendices();
+listarAprendicesEtapaPractica();
+
+
+function asignarInstructor(){
+  
+
+let datos= new URLSearchParams();
+    datos.append('instructor',document.getElementById('instructores').value);
+    datos.append('fecha_inicio',document.getElementById('fecha_inicio').value);
+    datos.append('fecha_fin',document.getElementById('fecha_fin').value);
+    datos.append('idPractica',document.getElementById('idPractica').value);
+    
+
+    fetch(`/asignarInstructor`, {
+                method: 'post',
+                body: datos,   
+            }).then(res => res.json())
+            .then(data => {
+              listarAprendicesEtapaPractica();
+            listarInstructoresSeguimiento();
+            Mensaje.fire({
+                icon: data.icon,
+                title: data.text
+            })
+
+            });   
+
+
+
+
+}
+
+
+
+
+function desactivarAsignacion(id_asignacion){
+
+    fetch(`/desactivarAsignacion/${id_asignacion}`, {
+                method: 'get',
+                
+            }).then(res => res.json())
+            .then(data => {
+              listarInstructoresSeguimiento();
+            Mensaje.fire({
+                icon: data.icon,
+                title: data.text
+            })
+
+            });   
+
+
+}
+
+function listarInstructoresSeguimiento() {
+  fetch(`/listarInstructoresSeguimiento`, {
+    method:'get'    
+}).then(res => res.json())
+.then(data => {
+  
+   let html=``;
+    data.forEach(element => {
+      let inicio= moment(element.fecha_inicio).format('DD-MM-YYYY');
+      let fin = moment(element.fecha_fin).format('DD-MM-YYYY');
+      let boton= element.estado=='Activo' ? `<a href='javaScript:desactivarAsignacion(${element.id_asignacion})'>Desactivar</a>` :'';
+    html+=`<tr>
+          <td>${element.nombres}</td>
+          <td>${inicio}</td>
+          <td>${fin}</td>
+          <td>${element.estado}</td>
+          <td>${boton}</td>
+          </tr> 
+          `;
+    });   
+     html +=``;
+    document.getElementById('tablaHistorial').innerHTML = html;  
+});
+
+  
+}
+
+
+
+
 
 
 function listarInstructoresVinculados() {
@@ -113,7 +195,7 @@ function nuevaEtapaPractica(idMatricula){
            document.getElementById('link_consulta').innerHTML=data.datos[0].acuerdo =='' ? 'No' :`<a href=javascript:descargarDocumento('${data.datos[0].consulta}')>Descargar</a>` ;
            listarMunicipios();
            listarInstructoresVinculados();
-        
+           listarInstructoresSeguimiento();
          
            Frm_EtapaPractica.show();
            Mensaje.fire({
@@ -167,10 +249,7 @@ function actualizarEtapaPractica(){
              body: datos,
          }).then(res => res.json())
          .then(data => {
-        //  listarTodosAprendices();
-
-          Frm_NuevoAprendiz.hide();
-          Mensaje.fire({
+            Mensaje.fire({
             icon: data.icon,
             title: data.text
         })
@@ -178,16 +257,13 @@ function actualizarEtapaPractica(){
          });   
 
 
-
-
-
 }
 
 
 
-function listarTodosAprendices() {
+function listarAprendicesEtapaPractica() {
 
-    fetch(`/listarTodosAprendices`, {
+    fetch(`/listarAprendicesEtapaPractica`, {
         method:'get'    
     }).then(res => res.json())
     .then(data => {
@@ -202,9 +278,11 @@ function listarTodosAprendices() {
           let dato = {
              identificacion:element.identificacion,
              nombres:element.nombres,
-             ficha:element.codigo,
-             programa:element.sigla,
-             estado:element.estado,
+             ficha:`${element.codigo} - ${element.sigla} ` ,
+             alternativa:element.alternativa,
+             fechas:element.fechas,
+             empresa:element.empresa,
+             instructor:element.instructor,
              Accion : accionBTN
 
           }
@@ -221,8 +299,10 @@ function listarTodosAprendices() {
               {"data": "identificacion"},
               {"data": "nombres"},
               {"data": "ficha"},
-              {"data": "programa"},
-              {"data": "estado"},
+              {"data": "alternativa"},
+              {"data": "fechas"},
+              {"data": "empresa"},
+              {"data": "instructor"},
               {"data": "Accion"}     
           ]
       });

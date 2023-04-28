@@ -10,6 +10,12 @@ rutaEtapaPractica.post('/actualizarEtapaPractica',controladorEtapaPractica.actua
 
 rutaEtapaPractica.post('/cargarArchivo',controladorEtapaPractica.cargarDocumento,controladorEtapaPractica.cargarArchivo)
 
+rutaEtapaPractica.post('/asignarInstructor',controladorEtapaPractica.asignarInstructor)
+
+rutaEtapaPractica.get('/listarInstructoresSeguimiento',controladorEtapaPractica.listarInstructoresSeguimiento)
+
+rutaEtapaPractica.get('/desactivarAsignacion/:id_asignacion',controladorEtapaPractica.desactivarAsignacion)
+
 
 
 module.exports = rutaEtapaPractica;

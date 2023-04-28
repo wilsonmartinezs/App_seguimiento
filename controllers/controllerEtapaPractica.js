@@ -58,8 +58,6 @@ controlador.desplegarEtapaPractica = (req, res) => {
 
 
 
-
-
 controlador.cargarArchivo =async (req, res) => { 
     try{
 
@@ -98,6 +96,85 @@ controlador.cargarArchivo =async (req, res) => {
 } 
 
 
+controlador.desactivarAsignacion =async (req, res) => { 
+    try{
+
+        let id_asignacion= req.params.id_asignacion;
+
+        let sql_insert=`update  asignaciones set estado='Inactivo' where id_asignacion=${id_asignacion}`; 
+         console.log(sql_insert);
+        const operacion = await conexion.query(sql_insert);  
+   
+        return res.status(200).json({
+            titulo: "Asinación de Etapa Practica",
+            icon: "success",
+            text: 'Desactivado el instructor del seguimiento  '
+        });
+   
+ 
+    }catch (e) {
+        console.log(e); 
+    } 
+} 
+
+
+
+
+
+
+controlador.asignarInstructor =async (req, res) => { 
+    try{
+
+        let {instructor,fecha_inicio,fecha_fin,idPractica}= req.body;
+
+        let sql_existencia= `SELECT count(*) as cantidad FROM asignaciones where  estado='Activo' `;
+        const [rows_existencia] = await conexion.query(sql_existencia);
+       
+        if(rows_existencia[0].cantidad>0){  
+         
+           return res.status(200).json({
+            titulo: "Asinación de Etapa Practica",
+            icon: "success",
+            text: 'Ya tiene asignado un instructor de seguimiento activo'
+        });
+
+    }else{
+
+
+        let sql_insert=`insert into  asignaciones (fecha_inicio,fecha_fin,productiva,instructor,estado) 
+         values ('${fecha_inicio}','${fecha_fin}',${idPractica},${instructor},'Activo')`; 
+         console.log(sql_insert);
+        const operacion = await conexion.query(sql_insert);  
+   
+        return res.status(200).json({
+            titulo: "Asinación de Etapa Practica",
+            icon: "success",
+            text: 'Se asigno con éxito el instructor'
+        });
+    }
+ 
+    }catch (e) {
+        console.log(e); 
+    } 
+} 
+
+
+controlador.listarInstructoresSeguimiento =async (req, res) => { 
+    try{
+        let sql_consulta= `SELECT asig.id_asignacion,per.nombres,asig.fecha_inicio,asig.fecha_fin,asig.estado FROM asignaciones asig 
+        JOIN vinculacion vin ON vin.id_vinculacion = asig.instructor
+        JOIN personas per ON per.id_persona = vin.instructor
+         `;
+        const [rows] = await conexion.query(sql_consulta);
+        res.json(rows);
+
+    }catch (e) {
+        console.log('Controlador Etapa Practica '+e); 
+    } 
+} 
+
+
+
 
 
 controlador.nuevaEtapaPractica =async (req, res) => { 
@@ -110,7 +187,7 @@ controlador.nuevaEtapaPractica =async (req, res) => {
         
          if(rows_existencia.length>0){  
           
-          let sql_productiva= `SELECT id_productiva,matricula,empesa,fecha_inicio,fecha_fin,alternativa,estado,acuerdo,arl,consulta FROM productiva pro where id_productiva=${rows_existencia[0].id_productiva}`;
+          let sql_productiva= `SELECT id_productiva,matricula,empresa,fecha_inicio,fecha_fin,alternativa,estado,acuerdo,arl,consulta FROM productiva pro where id_productiva=${rows_existencia[0].id_productiva}`;
           const [rows_productiva] = await conexion.query(sql_productiva);
             return res.status(200).json({
              datos:rows_productiva,
