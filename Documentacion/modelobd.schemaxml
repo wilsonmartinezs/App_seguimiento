@@ -6,8 +6,8 @@
 <canvas zoom="100">
 <tables>
 <table name="personas" view="colnames">
-<left>347</left>
-<top>623</top>
+<left>330</left>
+<top>627</top>
 <width>143</width>
 <height>221</height>
 <sql_create_table>CREATE TABLE `personas` (
@@ -24,11 +24,11 @@
   UNIQUE KEY `identificacion_unique` (`identificacion`),
   KEY `persona_municipio` (`municipio`),
   CONSTRAINT `persona_municipio` FOREIGN KEY (`municipio`) REFERENCES `municipios` (`id_municipio`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="municipios" view="colnames">
-<left>504</left>
-<top>850</top>
+<left>497</left>
+<top>854</top>
 <width>125</width>
 <height>112</height>
 <sql_create_table>CREATE TABLE `municipios` (
@@ -39,8 +39,8 @@
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="ambientes" view="colnames">
-<left>692</left>
-<top>821</top>
+<left>706</left>
+<top>819</top>
 <width>150</width>
 <height>148</height>
 <sql_create_table>CREATE TABLE `ambientes` (
@@ -113,8 +113,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="areas" view="colnames">
-<left>38</left>
-<top>937</top>
+<left>24</left>
+<top>935</top>
 <width>123</width>
 <height>112</height>
 <sql_create_table>CREATE TABLE `areas` (
@@ -148,20 +148,20 @@
 <sql_create_table>CREATE TABLE `productiva` (
   `id_productiva` int NOT NULL AUTO_INCREMENT,
   `matricula` int DEFAULT NULL,
-  `empesa` int DEFAULT NULL,
+  `empresa` int DEFAULT NULL,
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
   `alternativa` enum('Contrato de Aprendizaje','Proyecto Productivo','Pasantias','Monitoria') DEFAULT NULL,
   `estado` enum('Inicio','Renuncia','Terminado') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `acuerdo` varchar(100) DEFAULT NULL,
   `arl` varchar(100) DEFAULT NULL,
-  `certificado` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `consulta` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id_productiva`),
   KEY `aprendiz_matricula` (`matricula`),
-  KEY `empresa_matricula` (`empesa`),
-  CONSTRAINT `empresa_matricula` FOREIGN KEY (`empesa`) REFERENCES `empresa` (`id_empresa`),
+  KEY `empresa_matricula` (`empresa`),
+  CONSTRAINT `empresa_matricula` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id_empresa`),
   CONSTRAINT `practica_aprendiz` FOREIGN KEY (`matricula`) REFERENCES `matriculas` (`id_matricula`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="bitacoras" view="colnames">
 <left>24</left>
@@ -198,8 +198,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="empresa" view="colnames">
-<left>629</left>
-<top>521</top>
+<left>620</left>
+<top>522</top>
 <width>153</width>
 <height>180</height>
 <sql_create_table>CREATE TABLE `empresa` (
@@ -209,10 +209,11 @@
   `telefono` varchar(20) DEFAULT NULL,
   `correo` varchar(80) DEFAULT NULL,
   `municipio` int DEFAULT NULL,
+  `estado` enum('Activo','Inactivo') DEFAULT NULL,
   PRIMARY KEY (`id_empresa`),
   KEY `empresa_minicipio` (`municipio`),
   CONSTRAINT `empresa_minicipio` FOREIGN KEY (`municipio`) REFERENCES `municipios` (`id_municipio`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="asignaciones" view="colnames">
 <left>33</left>
@@ -221,6 +222,7 @@
 <height>163</height>
 <sql_create_table>CREATE TABLE `asignaciones` (
   `id_asignacion` int NOT NULL AUTO_INCREMENT,
+  `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
   `productiva` int DEFAULT NULL,
   `instructor` int DEFAULT NULL,
@@ -230,7 +232,7 @@
   KEY `asignacion_practica` (`productiva`),
   CONSTRAINT `asignacion_practica` FOREIGN KEY (`productiva`) REFERENCES `productiva` (`id_productiva`),
   CONSTRAINT `asignacion_vinculacacion` FOREIGN KEY (`instructor`) REFERENCES `vinculacion` (`id_vinculacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="matriculas" view="colnames">
 <left>570</left>
@@ -250,11 +252,11 @@
   KEY `matriculas_personas` (`aprendiz`),
   CONSTRAINT `matricula_ficha` FOREIGN KEY (`ficha`) REFERENCES `fichas` (`codigo`),
   CONSTRAINT `matriculas_personas` FOREIGN KEY (`aprendiz`) REFERENCES `personas` (`id_persona`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 <table name="vinculacion" view="colnames">
-<left>215</left>
-<top>957</top>
+<left>187</left>
+<top>945</top>
 <width>126</width>
 <height>163</height>
 <sql_create_table>CREATE TABLE `vinculacion` (
@@ -268,7 +270,7 @@
   KEY `vinculacion_area` (`area`),
   CONSTRAINT `vinculacion_area` FOREIGN KEY (`area`) REFERENCES `areas` (`id_area`),
   CONSTRAINT `vinculacion_instructor` FOREIGN KEY (`instructor`) REFERENCES `personas` (`id_persona`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci</sql_create_table>
 </table>
 </tables>
 </canvas>

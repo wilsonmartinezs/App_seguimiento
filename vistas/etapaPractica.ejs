@@ -196,11 +196,15 @@
                             <button type="button"  class="btn btn-primary" onclick="nuevaEmpresa()">Add</button>
                    
                             <table class="table"  id="tablaEmpresas">
-                              <th>Empresa</th>
-                              <th>Municipio</th>
-                              <th>Dirección</th>
-                              <th>Telefono</th>
-                              <th>Correo</th>
+
+                              <thead>
+                                <th>Empresa</th>
+                                <th>Municipio</th>
+                                <th>Dirección</th>
+                                <th>Telefono</th>
+                                <th>Correo</th>  
+                                </tr>
+                            </thead>
                              
                               <tbody></tbody>
                             </table>
@@ -224,61 +228,27 @@
 
             <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="profile-tab">
               <form>
-                <div class="mb-1">
+                <div class="mb-2">
+                <a class="btn btn-primary" href=javaScript:nuevoInstructor();>Nuevo</a>
+                  <table class="table" id="tablaHistorial">
+                    <thead>
+                      <tr class="line-head">
+                        <th>Instructor</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Estado</th>
+                        <th>Admmin.</th>
+                         
+                      </tr>
+                  </thead>
 
-                  <div class="row">
-                    <div class="col-12 mt-3">
-                      <label for="message-text" class="col-form-label">Instructor:</label>
-                      <select id="instructores" class="form-control" >
-                      </select>
-                    </div>
-                 </div>
 
-                
-
-                  <div class="row">
-                    <div class="col-6">
-                        <label for="message-text" class="col-form-label">Fecha Inicio:</label>
-                        <input type="date" id="fecha_inicio" class="form-control" placeholder="">
-                    </div>
-    
-                    <div class="col-6">
-                      <label for="message-text" class="col-form-label">Fecha Fin:</label>
-                      <input type="date" id="fecha_fin" class="form-control" placeholder=""/>
-                     </div>
-                 </div>  
-
-               
-                 <div class="accordion mt-2" id="accordionExample" >
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Historial de Instructores
-                      </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-
-                        <table class="table">
-                          <th>Instructor</th>
-                          <th>Fecha Inicio</th>
-                          <th>Fecha Fin</th>
-                          <th>Estado</th>
-                          <th>Admmin.</th>
-                          <tbody id="tablaHistorial"></tbody>
-                        </table>
-                       
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              
-           </div>
-          
-               <div class="modal-footer">
-                  <button type="button"  class="btn btn-primary" onclick="asignarInstructor()">Registrar</button>
+                   
+                    <tbody></tbody>
+                  </table>          
               </div>
+          
+              
                 </div>
              </form> 
               
@@ -493,6 +463,53 @@
               </form>
           </div>
           
+      </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="frmInstructor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-ml">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" >Asignae Instructor para Etapa Practica</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form>
+                  <div class="mb-2">
+                    <div class="row">
+                      <div class="col-12 mt-3">
+                        <label for="message-text" class="col-form-label">Instructor:</label>
+                        <select id="instructores" class="form-control" >
+                        </select>
+                      </div>
+                   </div>
+  
+                  
+  
+                    <div class="row">
+                      <div class="col-6">
+                          <label for="message-text" class="col-form-label">Fecha Inicio:</label>
+                          <input type="date" id="fecha_inicio" class="form-control" placeholder="">
+                      </div>
+      
+                      <div class="col-6">
+                        <label for="message-text" class="col-form-label">Fecha Fin:</label>
+                        <input type="date" id="fecha_fin" class="form-control" placeholder=""/>
+                       </div>
+                   </div>  
+  
+                     
+                  </div>
+
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button"  class="btn btn-primary" onclick="asignarInstructor()">Registrar</button>
+        </div>
       </div>
   </div>
 </div>

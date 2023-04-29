@@ -25,13 +25,13 @@ const Mensaje = Swal.mixin({
 });
 
 
-
-
-
 var frmDocumentos = new bootstrap.Modal(document.getElementById('frmDocumentos'), {
   keyboard: false
 });
 
+var frmInstructor = new bootstrap.Modal(document.getElementById('frmInstructor'), {
+  keyboard: false
+});
 
 
 
@@ -56,6 +56,7 @@ let datos= new URLSearchParams();
             .then(data => {
               listarAprendicesEtapaPractica();
             listarInstructoresSeguimiento();
+            frmInstructor.hide();
             Mensaje.fire({
                 icon: data.icon,
                 title: data.text
@@ -89,29 +90,55 @@ function desactivarAsignacion(id_asignacion){
 
 }
 
+function nuevoInstructor(){
+
+  frmInstructor.show();
+}
+
 function listarInstructoresSeguimiento() {
   fetch(`/listarInstructoresSeguimiento`, {
     method:'get'    
 }).then(res => res.json())
 .then(data => {
   
-   let html=``;
-    data.forEach(element => {
-      let inicio= moment(element.fecha_inicio).format('DD-MM-YYYY');
-      let fin = moment(element.fecha_fin).format('DD-MM-YYYY');
-      let boton= element.estado=='Activo' ? `<a href='javaScript:desactivarAsignacion(${element.id_asignacion})'>Desactivar</a>` :'';
-    html+=`<tr>
-          <td>${element.nombres}</td>
-          <td>${inicio}</td>
-          <td>${fin}</td>
-          <td>${element.estado}</td>
-          <td>${boton}</td>
-          </tr> 
-          `;
-    });   
-     html +=``;
-    document.getElementById('tablaHistorial').innerHTML = html;  
-});
+  
+      let arrayDatos = [];
+      let accionBTN='';
+      data.forEach(element => {   
+          accionBTN =element.estado=='Activo' ? `<a class='btn btn-primary' href='javaScript:desactivarAsignacion(${element.id_asignacion})'>Desactivar</a>` :'';;
+
+     
+
+
+         
+          let dato = {
+            nombres:element.nombres,
+            inicio:moment(element.fecha_inicio).format('DD-MM-YYYY'),
+            fin:moment(element.fecha_fin).format('DD-MM-YYYY'),
+            estado:element.estado,
+            Accion : accionBTN
+          }
+          arrayDatos.push(dato);
+      });
+
+      $('#tablaHistorial').DataTable({
+          lengthChange: false,
+          autoWidth: false,
+          destroy: true,
+          responsive: true,
+          data: arrayDatos,
+          columns: [
+              {"data": "nombres"},
+              {"data": "inicio"},
+              {"data": "fin"},
+              {"data": "estado"},
+              {"data": "Accion"}
+          ]
+      });
+    });
+
+
+
 
   
 }
@@ -453,8 +480,8 @@ function listarEmpresasActivas() {
               {"data": "Accion"}     
           ]
       });
-
-
     });
+
+
 }
 
