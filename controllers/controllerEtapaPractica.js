@@ -122,6 +122,7 @@ controlador.asignarInstructor =async (req, res) => {
 
         let {instructor,fecha_inicio,fecha_fin,idPractica}= req.body;
 
+  
         let sql_existencia= `SELECT count(*) as cantidad FROM asignaciones where  estado='Activo' `;
         const [rows_existencia] = await conexion.query(sql_existencia);
        
@@ -155,16 +156,12 @@ controlador.asignarInstructor =async (req, res) => {
 
 
 
-
-
-
-
-
 controlador.listarInstructoresSeguimiento =async (req, res) => { 
     try{
         let sql_consulta= `SELECT asig.id_asignacion,per.nombres,asig.fecha_inicio,asig.fecha_fin,asig.estado FROM asignaciones asig 
         JOIN vinculacion vin ON vin.id_vinculacion = asig.instructor
         JOIN personas per ON per.id_persona = vin.instructor
+        ORDER BY asig.estado
          `;
         const [rows] = await conexion.query(sql_consulta);
         res.json(rows);
@@ -288,9 +285,6 @@ controlador.desvincularEmpresa =async (req, res) => {
     } 
 } 
  
-
-
-
 
 controlador.listarEmpresaSeleccionada =async (req, res) => { 
 

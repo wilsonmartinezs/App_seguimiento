@@ -43,6 +43,7 @@
                     <th>FECHAS</th>
                     <th>EMPRESA</th>
                     <th>INSTRUCTOR</th>
+                    <th>MESES</th>
                     <th>Admin.</th>  
                 </tr>
             </thead>
@@ -193,7 +194,7 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                           <div class="accordion-body">
-                            <button type="button"  class="btn btn-primary" onclick="nuevaEmpresa()">Add</button>
+                            <button type="button"  class="btn btn-primary" onclick="nuevaEmpresa()">Nueva Empresa</button>
                    
                             <table class="table"  id="tablaEmpresas">
 
@@ -202,7 +203,8 @@
                                 <th>Municipio</th>
                                 <th>Dirección</th>
                                 <th>Telefono</th>
-                                <th>Correo</th>  
+                                <th>Correo</th> 
+                                <th>Admin.</th> 
                                 </tr>
                             </thead>
                              
@@ -228,8 +230,10 @@
 
             <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="profile-tab">
               <form>
-                <div class="mb-2">
-                <a class="btn btn-primary" href=javaScript:nuevoInstructor();>Nuevo</a>
+                <div class="mt-3">
+                  <h4 class="text-center">Datos de Instructor de Seguimiento</h4>
+                   <a class="btn btn-primary" href=javaScript:nuevoInstructor();>Nuevo Instructor</a>
+                  <hr>
                   <table class="table" id="tablaHistorial">
                     <thead>
                       <tr class="line-head">
@@ -237,13 +241,9 @@
                         <th>Fecha Inicio</th>
                         <th>Fecha Fin</th>
                         <th>Estado</th>
-                        <th>Admmin.</th>
-                         
+                        <th>Admin.</th>
                       </tr>
                   </thead>
-
-
-                   
                     <tbody></tbody>
                   </table>          
               </div>
@@ -474,7 +474,7 @@
   <div class="modal-dialog modal-ml">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" >Asignae Instructor para Etapa Practica</h5>
+              <h5 class="modal-title" >Asignar Instructor para Etapa Practica</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -493,12 +493,12 @@
                     <div class="row">
                       <div class="col-6">
                           <label for="message-text" class="col-form-label">Fecha Inicio:</label>
-                          <input type="date" id="fecha_inicio" class="form-control" placeholder="">
+                          <input type="date" id="fecha_i" class="form-control" placeholder="">
                       </div>
       
                       <div class="col-6">
                         <label for="message-text" class="col-form-label">Fecha Fin:</label>
-                        <input type="date" id="fecha_fin" class="form-control" placeholder=""/>
+                        <input type="date" id="fecha_f" class="form-control" placeholder=""/>
                        </div>
                    </div>  
   
@@ -515,6 +515,58 @@
 </div>
 
 
+<div class="modal fade" id="frmEmpresa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-ml">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" >Registrar Nueva Empresa</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form>
+                  <div class="mb-2">
+                    <div class="row">
+                      <div class="col-6">
+                        <label for="message-text" class="col-form-label">Nombre de la Empresa:</label>
+                        <input type="text" id="razon_social" class="form-control" placeholder="Digite el nombre de la empresa">
+                      </div>
+                      <div class="col-6">
+                        <label for="message-text" class="col-form-label">Telefono:</label>
+                        <input type="number" id="telefono" class="form-control" placeholder="Digite el telefono">
+                      </div>
+                   </div>
+  
+                  
+  
+                    <div class="row">
+                      <div class="col-6">
+                          <label for="message-text" class="col-form-label">Correo:</label>
+                          <input type="text" id="correo" class="form-control" placeholder="Digite el correo">
+                      </div>
+      
+                      <div class="col-6">
+                        <label for="message-text" class="col-form-label">Dirección:</label>
+                        <input type="text" id="direccion" class="form-control" placeholder="Digite la dirección"/>
+                       </div>
+                   </div>  
+
+
+                   <div class="row">
+                    <div class="col-12">
+                        <label for="message-text" class="col-form-label">Municipio:</label>
+                        <select id='municipios' class="form-control"></select>
+                    </div>
+                 </div>  
+                  </div>
+
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button"  class="btn btn-primary" onclick="registrarEmpresa()">Registrar</button>
+        </div>
+      </div>
+  </div>
+</div>
 
 
 

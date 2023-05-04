@@ -22,7 +22,7 @@ controlador.registrarMatricula =async (req, res) => {
 
         let sql_select= `SELECT id_matricula
                          FROM matriculas ma
-                         where ma.ficha=${ficha} and ma.aprendiz = ${id_persona} and ma.estado!='Certificado'`;
+                         where ma.ficha=${ficha} and ma.aprendiz = ${id_persona} and ma.estado='Formación'`;
         const [rows] = await conexion.query(sql_select);
        // console.log(sql_select);
         if(rows.length>0){
@@ -89,19 +89,18 @@ controlador.listarAprendicesEtapaPractica =async (req, res) => {
                 (SELECT CONCAT(fecha_inicio,' Al ',fecha_fin) FROM productiva prod WHERE prod.matricula = ma.id_matricula) AS fechas,
                 (SELECT razon_social FROM productiva prod  JOIN empresa em ON em.id_empresa=prod.empresa
                 WHERE prod.matricula = ma.id_matricula) AS empresa,
-
                  (SELECT p.nombres FROM productiva prod 
                     JOIN asignaciones a ON a.productiva=prod.id_productiva
                     JOIN vinculacion v ON v.id_vinculacion=a.instructor
                     JOIN personas p ON p.id_persona = v.instructor
-                    WHERE prod.matricula = ma.id_matricula AND a.estado='Activo') AS instructor
-
+                    WHERE prod.matricula = ma.id_matricula AND a.estado='Activo') AS instructor,
+               (SELECT TIMESTAMPDIFF(MONTH,fecha_inicio ,CURDATE()) FROM productiva prod WHERE prod.matricula = ma.id_matricula) AS meses
 
                 FROM matriculas ma
                 JOIN personas pe ON pe.id_persona = ma.aprendiz
                 JOIN fichas fi ON fi.codigo =  ma.ficha
                 JOIN programas pro ON pro.id_programa = fi.programa
-                WHERE pe.cargo = 'Aprendiz' and ma.estado='Etapa Practica'
+                WHERE pe.cargo = 'Aprendiz' and ma.estado='Formación'
             `;
     const [rows] = await conexion.query(sql);
         res.json(rows);
@@ -110,24 +109,6 @@ controlador.listarAprendicesEtapaPractica =async (req, res) => {
     } 
 } 
 
-
-/*
-controlador.buscarAprendizMatricula = async (req, res) => {  
-    try{
-        let idMatricula =  req.params.idMatricula; 
-        let sql= `
-        SELECT per.identificacion,per.nombres,per.correo,per.telefono,per.municipio
-        FROM personas  per
-        JOIN matriculas ma ON ma.aprendiz = per.id_persona
-        WHERE ma.id_matricula= ${idMatricula};
-                `;
-        const [rows] = await conexion.query(sql);
-        res.json(rows);
-    }catch(e){
-        console.log(e);
-    }
- }
-*/
 
 
  controlador.buscarAprendiz = async(req, res) => {

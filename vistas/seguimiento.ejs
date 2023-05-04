@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="/css/start_page.css">
+    <link rel="stylesheet" href="/css/components/drop_menu.css">
+    <link rel="stylesheet" href="/css/components/navbar.css">
+    <link rel="stylesheet" href="/icons/boxicons/css/boxicons.min.css">
+    <link rel="stylesheet" href="/icons/fontawesome/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+   <link rel="stylesheet" href="/css/dataTables.bootstrap5.min.css">
+    <title>Inicio | Administrador</title>
+   </head>
+
+   <style>
+    .table.dataTable  {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 14px;
+  }
+  </style>
+<body>
+    <div class="sidebar close">
+        <div class="logo-details">
+            <img src="/img/logo_white.png" alt="" width="60" height="60">
+        </div>
+        <%- include ('partials/menu.ejs')%>
+    </div>
+   
+    <section class="home-section">
+
+      <%- include ('partials/header.ejs')%>
+
+<hr>
+<H5 class="text-center">ESTADO DE SEGUIMIENTOS DE ETAPA PRACTICA</H5>
+<hr>
+
+      <div class='container'>
+
+            
+        <table  class="table table-striped" id="tablaSeguimientos">
+            <thead>
+                <tr class="line-head">
+                
+                    <th>Identificación</th>
+                    <th>Nombres</th>
+                    <th>Meses</th>
+                    <th>Seguimiento 1</th>
+                    <th>Seguimiento 2</th>
+                    <th>Seguimiento 3</th>
+                    <th>Instructor</th>
+                    <th>Admin.</th>  
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+     </div>
+   </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+    <%- include ('./partials/scripts.ejs')%>
+</body>
+
+<script src="./js/seguimiento.js"></script>
+</html>

@@ -8,7 +8,16 @@ const pool = mysql.createPool(
         user: 'root',
         password:'',
         database: 'sena'
-  
+   
+
+  /*
+        host: 'localhost',
+        user: 'root',
+        password:'Mysql2022*',
+        database: 'cgdss'
+
+        */
+
 /*
      host: process.env.DB_HOST,
      user: process.env.DB_USER,

@@ -34,6 +34,11 @@ var frmInstructor = new bootstrap.Modal(document.getElementById('frmInstructor')
 });
 
 
+var frmEmpresa = new bootstrap.Modal(document.getElementById('frmEmpresa'), {
+  keyboard: false
+});
+
+
 
 
 listarAprendicesEtapaPractica();
@@ -44,8 +49,8 @@ function asignarInstructor(){
 
 let datos= new URLSearchParams();
     datos.append('instructor',document.getElementById('instructores').value);
-    datos.append('fecha_inicio',document.getElementById('fecha_inicio').value);
-    datos.append('fecha_fin',document.getElementById('fecha_fin').value);
+    datos.append('fecha_inicio',document.getElementById('fecha_i').value);
+    datos.append('fecha_fin',document.getElementById('fecha_f').value);
     datos.append('idPractica',document.getElementById('idPractica').value);
     
 
@@ -67,6 +72,12 @@ let datos= new URLSearchParams();
 
 
 
+}
+
+
+
+function nuevaEmpresa(){
+frmEmpresa.show();
 }
 
 
@@ -168,9 +179,38 @@ function listarInstructoresVinculados() {
 
 
 
-function legalizarEtapaPractica(idMatricula){
+function legalizarEtapaPractica(idMatricula,Inicio){
  
+
+if(Inicio=='Si'){
   nuevaEtapaPractica(idMatricula);
+}else{
+  Swal.fire({
+    title: '¿Desea legalizar la Etapa Practica?',
+    showDenyButton: true,
+    confirmButtonText: 'Si',
+    denyButtonText: `No`,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      nuevaEtapaPractica(idMatricula);
+    } else if (result.isDenied) {
+      Swal.fire('Operación cancelada..!', '', 'info')
+    }
+  })
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
@@ -300,9 +340,16 @@ function listarAprendicesEtapaPractica() {
       let arrayDatos = [];
       let accionBTN='';
       data.forEach(element => {   
-          accionBTN =` <a class="btn btn-primary" href="javascript:legalizarEtapaPractica(${element.id_matricula})" title='Asignar'>
-                        <i class="fa-solid fa-pen-to-square"></i> </a>
-                   `;
+          accionBTN =element.alternativa==null ? ` <a class="btn btn-danger" href="javascript:legalizarEtapaPractica(${element.id_matricula},'No')" title='Administrar'>
+                        <i class="fa-solid fa-pen-to-square"></i> </a> ` 
+                        
+                        :
+                        
+                        ` <a class="btn btn-primary" href="javascript:legalizarEtapaPractica(${element.id_matricula},'Si')" title='Administrar'>
+                        <i class="fa-solid fa-pen-to-square"></i> </a> `
+                        ;
+
+                  
           
           let dato = {
              identificacion:element.identificacion,
@@ -312,6 +359,7 @@ function listarAprendicesEtapaPractica() {
              fechas:element.fechas,
              empresa:element.empresa,
              instructor:element.instructor,
+             meses:element.meses,
              Accion : accionBTN
 
           }
@@ -332,6 +380,7 @@ function listarAprendicesEtapaPractica() {
               {"data": "fechas"},
               {"data": "empresa"},
               {"data": "instructor"},
+              {"data": "meses"},
               {"data": "Accion"}     
           ]
       });
@@ -450,8 +499,10 @@ function listarEmpresasActivas() {
       let arrayDatos = [];
       let accionBTN='';
       data.forEach(element => {   
-          accionBTN =` <a class="btn btn-primary" href="javascript:seleccionarEmpresa(${element.id_empresa})" title='Seleccionar'>
-                        <i class="fa-solid fa-pen-to-square"></i> </a>
+          accionBTN =` <a class="btn btn-success" href="javascript:seleccionarEmpresa(${element.id_empresa})" title='Seleccionar'>
+                        Selec.</a>
+                        <a class="btn btn-danger" href="javascript:desactivarEmpresa(${element.id_empresa})" title='Eliminar'>
+                        Elim.</a>
                    `;
           //emp.id_empresa,emp.razon_social,emp.direccion,emp.telefono,emp.correo,mu.nombre_mpio
           let dato = {
@@ -485,3 +536,65 @@ function listarEmpresasActivas() {
 
 }
 
+
+
+function registrarEmpresa(){
+
+  
+ let datos= new URLSearchParams();
+ datos.append('razon_social',   document.getElementById('razon_social').value);
+ datos.append('telefono',document.getElementById('telefono').value);
+ datos.append('correo',document.getElementById('correo').value);
+ datos.append('direccion',document.getElementById('direccion').value);
+ datos.append('municipios',document.getElementById('municipios').value);
+
+fetch(`/registrarEmpresa`, {
+            method: 'post',
+            body: datos,
+        }).then(res => res.json())
+        .then(data => {
+          listarEmpresasActivas();
+           Mensaje.fire({
+           icon: data.icon,
+           title: data.text
+       })
+          
+        });   
+
+
+}
+
+function desactivarEmpresa(id_empresa){
+
+
+  Swal.fire({
+    title: '¿Desea eliminar la empresa?',
+    showDenyButton: true,
+    confirmButtonText: 'Si',
+    denyButtonText: `No`,
+  }).then((result) => {
+    if (result.isConfirmed) {
+       
+      fetch(`/desactivarEmpresa/${id_empresa}`, {
+            method: 'get'
+        }).then(res => res.json())
+        .then(data => {
+              listarEmpresasActivas();
+              Mensaje.fire({
+              icon: data.icon,
+              title: data.text
+            })
+        });   
+
+
+    } else if (result.isDenied) {
+      Swal.fire('Operación cancelada..!', '', 'info')
+    }
+  })
+
+
+
+
+
+
+}

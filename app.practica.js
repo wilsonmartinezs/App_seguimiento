@@ -19,7 +19,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 
 //Se asigna el puerto al servidor 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4000);
 
 dotenv.config({path: './env/.env'});
 
@@ -41,6 +41,7 @@ app.use(require('./routes/routeFicha'));
 app.use(require('./routes/routeMatricula'));
 app.use(require('./routes/routeVinculacion'));
 app.use(require('./routes/routeEmpresa'));
+app.use(require('./routes/routeSeguimiento'));
 
 
 app.listen(app.get('port'), function() {
